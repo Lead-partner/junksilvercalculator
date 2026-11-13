@@ -1,0 +1,102 @@
+import assert from 'node:assert/strict';
+import { mkdir, writeFile } from 'node:fs/promises';
+import { launchChrome, pause } from './chrome.mjs';
+import { startServer } from './serve.mjs';
+const {server,url} = await startServer();
+const chrome = await launchChrome();
+await mkdir('qa-shots',{recursive:true});
+const report=[];
+const check = (label, value) => { assert.ok(value,label); report.push(label); console.log('PASS '+label); };
+const set = (id,value) => `(()=>{const e=document.getElementById(${JSON.stringify(id)});e.value=${JSON.stringify(value)};e.dispatchEvent(new Event('input',{bubbles:true}));})()`;
+const click = selector => `document.querySelector(${JSON.stringify(selector)}).click()`;
+try {
+  for (const width of [320,390,768,1280]) {
+    const page=await chrome.page(width,width===1280?900:844);
+    await page.navigate(url+'/');
+    const sizes=await page.evaluate(`({width:innerWidth,scroll:document.documentElement.scrollWidth, lastCoin:document.querySelector('[data-coin="m"]').getBoundingClientRect().bottom})`);
+    check(`No overflow at ${width}px (${sizes.scroll} ≤ ${sizes.width})`,sizes.scroll<=sizes.width);
+    if(width===390)check('All four common coins above the 844px fold',sizes.lastCoin<=844);
+    if(width===390||width===1280)await page.screenshot(`qa-shots/home-${width}x${width===390?844:900}.png`);
+    await page.evaluate(click('#more-button'));
+    await page.evaluate(click('#advanced summary'));
+    await page.evaluate(click('#offer-details summary'));
+    const expanded=await page.evaluate('document.documentElement.scrollWidth<=innerWidth');
+    check(`No overflow with disclosures open at ${width}px`,expanded);
+    check(`No browser exceptions at ${width}px`,!page.errors.length);
+    await page.close();
+  }
+  const p=await chrome.page(390,844);
+  await p.navigate(url+'/?spot=30');
+  await p.evaluate(set('coin-d','10'));
+  check('Live result: 10 dimes × $30 = $21.70',await p.evaluate("document.getElementById('total-melt').textContent==='$21.70'"));
+  await p.evaluate(click('[data-coin="d"] [data-mode="face"]'));
+  check('Count → face conversion preserves silver',await p.evaluate("document.getElementById('coin-d').value==='1' && document.getElementById('total-melt').textContent==='$21.70'"));
+  await p.evaluate(click('[data-coin="q"] [data-mode="face"]'));
+  await p.evaluate(set('coin-q','1.15'));
+  check('Fractional face value gets a gentle note',await p.evaluate("!document.getElementById('note-q').hidden && document.getElementById('note-q').textContent.includes('4.6 coins')"));
+  await p.evaluate(set('coin-d','0'));
+  await p.evaluate(set('coin-q','10'));
+  await p.evaluate(click('#worn'));
+  check('Worn quarters: $10 face = 7.150 ozt / $214.50',await p.evaluate("document.getElementById('total-oz').textContent==='7.150' && document.getElementById('total-melt').textContent==='$214.50'"));
+  await p.evaluate(set('offer','197.34'));
+  check('Offer comparison uses the selected benchmark',await p.evaluate("document.getElementById('offer-result').textContent==='That offer is 92% of melt — above your 88% benchmark.'"));
+  await p.evaluate(set('pct','100'));
+  check('Dealer input updates live',await p.evaluate("document.getElementById('dealer-value').textContent==='$214.50' && document.getElementById('offer-result').textContent.includes('below your 100% benchmark')"));
+  await p.evaluate(click('#clear'));
+  check('Clear all / empty offer state',await p.evaluate("document.getElementById('total-melt').textContent==='$0.00' && document.getElementById('offer-result').textContent==='Add coins first' && !document.getElementById('toast').hidden"));
+  await p.evaluate(click('#undo'));
+  check('Undo restores the coin sheet',await p.evaluate("document.getElementById('coin-q').value==='10' && document.getElementById('total-melt').textContent==='$214.50'"));
+  await p.evaluate(set('coin-q','-3'));
+  check('Invalid input is marked and never yields NaN',await p.evaluate("document.getElementById('coin-q').getAttribute('aria-invalid')==='true' && document.getElementById('total-melt').textContent==='$0.00'"));
+  await p.evaluate(set('coin-q','10'));
+  await p.evaluate(click('#more-button'));
+  await p.evaluate(set('coin-n','2'));
+  await pause(300);
+  const shared=await p.evaluate('location.href');
+  const before=await p.evaluate("document.getElementById('total-melt').textContent");
+  await p.navigate(shared);
+  check('Shared URL restores quantities, units, worn rate, spot, benchmark and offer',await p.evaluate(`document.getElementById('total-melt').textContent===${JSON.stringify(before)} && document.getElementById('coin-q').value==='10' && document.getElementById('worn').checked && document.getElementById('pct').value==='100' && document.getElementById('offer').value==='197.34' && document.getElementById('manual-spot').value==='30' && !document.getElementById('more-coins').hidden`));
+  await p.evaluate('window.scrollTo(0,650)');await pause(150);
+  check('Sticky total appears after result leaves the viewport',await p.evaluate("!document.getElementById('sticky-total').hidden && getComputedStyle(document.getElementById('sticky-total')).display==='flex'"));
+  await p.evaluate("document.getElementById('coin-q').focus()");
+  check('Sticky bar never covers a focused input',await p.evaluate("getComputedStyle(document.getElementById('sticky-total')).display==='none'"));
+  await p.evaluate("document.getElementById('coin-q').blur();document.getElementById('advanced').open=true;document.getElementById('offer-details').open=true;window.scrollTo(0,0)");
+  await p.screenshot('qa-shots/home-populated-390.png');
+  check('Polite total live region exists',await p.evaluate("document.getElementById('total-announcement').getAttribute('aria-live')==='polite'"));
+  await p.command('Browser.grantPermissions',{origin:url,permissions:['clipboardReadWrite','clipboardSanitizedWrite']}).catch(()=>{});
+  await p.evaluate(click('#copy-link'));await pause(100);
+  check('Copy link gives feedback',await p.evaluate("document.getElementById('copy-link').textContent==='Copied'"));
+  // Exercise both file and direct-provider price boundaries deterministically.
+  await p.evaluate(`window.fetch=async url=>({ok:true,json:async()=>String(url).includes('/live/')?{usd_per_ozt:40,source:'test-file',fetched_at:new Date().toISOString(),source_time:null}:{price:45,updatedAt:new Date().toISOString()}})`);
+  await p.evaluate(click('#live-reset'));await pause(150);
+  check('Reset uses a fresh same-origin price file',await p.evaluate("document.getElementById('spot-figure').textContent==='$40.00/oz' && document.getElementById('spot-label').textContent==='Spot price'"));
+  await p.evaluate(`window.fetch=async url=>{if(String(url).includes('/live/'))throw Error('file unavailable');return {ok:true,json:async()=>({price:45,updatedAt:new Date().toISOString()})}};document.dispatchEvent(new Event('visibilitychange'))`);await pause(150);
+  check('Direct gold-api fallback renders when the price file fails',await p.evaluate("document.getElementById('spot-figure').textContent==='$45.00/oz'"));
+  await p.evaluate(`window.fetch=async()=>{throw Error('offline')};document.dispatchEvent(new Event('visibilitychange'))`);await pause(150);
+  check('Offline fallback retains a good price',await p.evaluate("document.getElementById('spot-figure').textContent==='$45.00/oz'"));
+  check('No browser exceptions during interaction flows',!p.errors.length);
+  await p.close();
+  for(const path of ['/embed/','/about/','/contact/','/404.html']) {
+    const page=await chrome.page(320,844);
+    await page.navigate(url+path,path==='/embed/');
+    check(`${path} has no overflow`,await page.evaluate('document.documentElement.scrollWidth<=innerWidth'));
+    check(`${path} has required metadata`,await page.evaluate(`!!document.querySelector('meta[name="msvalidate.01"]') && !!document.querySelector('link[rel="canonical"]') && !!document.querySelector('meta[name="twitter:card"]')`));
+    if(path==='/embed/') {
+      check('Embed is noindex with a dofollow attribution',await page.evaluate(`document.querySelector('meta[name="robots"]').content.includes('noindex') && !document.querySelector('.embed-footer a').rel.includes('nofollow') && document.querySelector('.embed-footer a').target==='_blank'`));
+      await page.evaluate(set('coin-d','10'));
+      check('Embed calculator updates',await page.evaluate("document.getElementById('total-oz').textContent==='0.723'"));
+      await page.screenshot('qa-shots/embed-320.png');
+    }
+    await page.close();
+  }
+  const mainResponse=await fetch(url), embedResponse=await fetch(url+'/embed/');
+  check('Main framing is forbidden; embed allows framing',mainResponse.headers.get('content-security-policy').includes("frame-ancestors 'none'") && embedResponse.headers.get('content-security-policy').includes('frame-ancestors *'));
+  check('Security response headers are present',mainResponse.headers.get('x-content-type-options')==='nosniff' && !!mainResponse.headers.get('referrer-policy'));
+  const main=await chrome.page(390,844);await main.navigate(url+'/');
+  const faq=await main.evaluate(`(()=>{const schema=JSON.parse(document.querySelector('script[type="application/ld+json"]').textContent)[1];const visible=[...document.querySelectorAll('#faq details')].map(d=>({q:d.querySelector('summary').textContent,a:d.querySelector('p').textContent}));return schema.mainEntity.every((item,i)=>item.name===visible[i].q&&item.acceptedAnswer.text===visible[i].a)})()`);
+  check('FAQ schema matches the exact visible text',faq);await main.close();
+  const nojs=await chrome.page(390,844);await nojs.command('Emulation.setScriptExecutionDisabled',{value:true});await nojs.navigate(url+'/',false);
+  check('No-JavaScript guidance is visible',await nojs.evaluate("document.querySelector('.noscript').getBoundingClientRect().height>0"));await nojs.close();
+  await writeFile('qa-shots/report.json',JSON.stringify({passed:report.length,checks:report},null,2)+'\n');
+  console.log(`\n${report.length} browser checks passed. Screenshots: qa-shots/`);
+} finally { await chrome.close(); await new Promise(ok=>server.close(ok)); }

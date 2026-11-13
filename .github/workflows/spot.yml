@@ -1,0 +1,37 @@
+name: Refresh silver spot
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: spot-data
+  cancel-in-progress: false
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Keep the last published snapshot on provider failure
+        shell: bash
+        run: |
+          if git fetch origin spot-data:refs/remotes/origin/spot-data; then
+            if git show origin/spot-data:spot.json > "$RUNNER_TEMP/previous-spot.json"; then
+              cp "$RUNNER_TEMP/previous-spot.json" public/spot.json
+            fi
+          fi
+      - run: node scripts/fetch-spot.mjs
+      - name: Publish only spot.json with a single orphan commit
+        shell: bash
+        run: |
+          node --input-type=module -e "import fs from 'node:fs'; const s=JSON.parse(fs.readFileSync('public/spot.json')); if (!(Number.isFinite(s.usd_per_ozt) && s.usd_per_ozt>5 && s.usd_per_ozt<500 && Number.isFinite(Date.parse(s.fetched_at)))) process.exit(1)"
+          git config user.name agentslp
+          git config user.email 335335651+agentslp@users.noreply.github.com
+          blob=$(git hash-object -w public/spot.json)
+          tree=$(printf '100644 blob %s\tspot.json\n' "$blob" | git mktree)
+          commit=$(printf 'Refresh silver spot\n' | git commit-tree "$tree")
+          git push --force origin "$commit:refs/heads/spot-data"
