@@ -44,6 +44,7 @@ try {
   check('Dealer input updates live',await p.evaluate("document.getElementById('dealer-value').textContent==='$214.50' && document.getElementById('offer-result').textContent.includes('below your 100% benchmark')"));
   await p.evaluate(click('#clear'));
   check('Clear all / empty offer state',await p.evaluate("document.getElementById('total-melt').textContent==='$0.00' && document.getElementById('offer-result').textContent==='Add coins first' && !document.getElementById('toast').hidden"));
+  check('Keyboard clear gives immediate access to Undo',await p.evaluate("document.activeElement.id==='undo'"));
   await p.evaluate(click('#undo'));
   check('Undo restores the coin sheet',await p.evaluate("document.getElementById('coin-q').value==='10' && document.getElementById('total-melt').textContent==='$214.50'"));
   await p.evaluate(set('coin-q','-3'));

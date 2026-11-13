@@ -113,11 +113,12 @@ function setMore(open) {
   $('more-button').querySelector('.sign').textContent = open ? '−' : '+';
 }
 $('more-button').addEventListener('click', () => setMore($('more-coins').hidden));
-$('clear').addEventListener('click', () => {
+$('clear').addEventListener('click', event => {
   snapshot = { ...state.amounts };
   for (const c of COINS) state.amounts[c.id] = 0;
   syncRows(); render();
   $('toast').hidden = false; clearTimeout(undoTimer);
+  if (event.detail === 0) $('undo').focus();
   undoTimer = setTimeout(() => {
     if (document.activeElement === $('undo')) $('more-button').focus();
     $('toast').hidden = true; snapshot = null;

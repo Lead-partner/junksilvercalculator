@@ -24,7 +24,9 @@ export async function launchChrome() {
       if(msg.error) p.fail(Error(JSON.stringify(msg.error))); else p.ok(msg.result);
     } else for(const listener of listeners) listener(msg);
   });
+  ws.addEventListener('close',()=>{for(const p of pending.values()){clearTimeout(p.timer);p.fail(Error('Chrome connection closed'));}pending.clear();});
   function send(method,params={},sessionId) {
+    if(ws.readyState!==WebSocket.OPEN)return Promise.reject(Error('Chrome connection closed'));
     const id=++next;
     return new Promise((ok,fail)=>{
       const timer=setTimeout(()=>{pending.delete(id);fail(Error('CDP timeout: '+method));},30000);

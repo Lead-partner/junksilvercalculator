@@ -30,7 +30,7 @@ Minted silver = coin count × weight in grams × fineness ÷ 31.1034768. Roundin
 
 **Precision note:** 26.730 g × 0.900 ÷ 31.1034768 = 0.7734517153… ozt for a Morgan/Peace dollar. This rounds to **0.7735** at four decimal places, rather than the brief’s 0.7734; the calculator and test preserve the stated weight formula. At $48.83 spot it rounds to $37.77.
 
-Quantities, input modes, dealer percentage, worn mode, manual price and offer are encoded in the query string using debounced `history.replaceState`. Values are normalized on decode. Coin inventories are not sent to a server. Only the last price snapshot is stored locally. Clear all clears coin quantities, with five-second Undo.
+Quantities, input modes, dealer percentage, worn mode, manual price and offer are encoded in the query string using debounced `history.replaceState`. Values are normalized on decode. Calculations run in the browser. A shared URL contains the entered values; recipients can read them. Only the last price snapshot is stored locally. Clear all clears coin quantities, with five-second Undo.
 
 ## Verification
 
@@ -40,7 +40,9 @@ npm run build
 npm run qa
 ```
 
-Browser QA uses Chrome’s DevTools protocol and Node’s built-in WebSocket (Node 22+ for this script; build/tests support Node 20). It writes screenshots at 390×844 and 1280×900, checks zero horizontal overflow at 320/390/768/1280, and exercises live totals, face mode, worn mode, offer checks, clear/undo, URL restoration, fallback prices, the embed, metadata and security headers. QA artifacts stay in the ignored `qa-shots/` directory. Regenerate the committed 1200×630 OG image and PNG icons with `node scripts/generate-assets.mjs`.
+Browser QA uses Chrome’s DevTools protocol and Node’s built-in WebSocket (Node 22+ for Chrome utility scripts; build/tests support Node 20). It writes screenshots at 390×844 and 1280×900, checks zero horizontal overflow at 320/390/768/1280, and exercises live totals, face mode, worn mode, offer checks, clear/undo, URL restoration, fallback prices, the embed, metadata and security headers. QA artifacts stay in the ignored `qa-shots/` directory. Regenerate the committed 1200×630 OG image and PNG icons with `node scripts/generate-assets.mjs`.
+
+Verified on 13 November 2026: 17 unit tests and 46 browser checks passed. Lighthouse mobile scored **100 Performance / 100 Accessibility / 100 Best Practices / 100 SEO**, with **CLS 0**. Runtime JavaScript is **5,699 bytes gzip**. Both requested screenshots and the Lighthouse JSON report are in `qa-shots/`.
 
 Production Vercel configuration is in `vercel.json`; the main site forbids framing and `/embed/` permits framing. The embed is noindex and excluded from the sitemap. No deployment is performed by build or QA. `.github/workflows/test.yml` runs tests on pushes and pull requests.
 
