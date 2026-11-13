@@ -2,3 +2,5 @@ design-ref/
 qa-shots/
 node_modules/
 .vercel/
+public/*
+!public/spot.json

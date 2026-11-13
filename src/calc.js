@@ -13,7 +13,7 @@ export function nonnegative(value, max = 1e12) {
   return Number.isFinite(n) && n > 0 ? Math.min(n, max) : 0;
 }
 export function faceToCount(face, coin) { return nonnegative(face, 1e9) / coin.face; }
-export function countToFace(count, coin) { return nonnegative(count, 1e9) * coin.face; }
+export function countToFace(count, coin) { return nonnegative(count, 2e10) * coin.face; }
 export function coinOzt(coin, count, worn = false) {
   return nonnegative(count, 2e10) * (worn && coin.worn ? .715 * coin.face : coin.weight * coin.fine / TROY_GRAMS);
 }
