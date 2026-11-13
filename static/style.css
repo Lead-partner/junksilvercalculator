@@ -14,3 +14,4 @@
 @media(min-width:1041px){.chips{flex-direction:row;gap:0}.chips button{min-height:44px;min-width:44px}.chips button:before{inset:10px 0}.quantity{gap:4px}}
 .stepper{height:46px}.stepper button{min-height:44px}.sheet-hd,.sheet-hd .text-button{min-height:44px}
 @media(max-width:700px){.display{padding-top:12px;padding-bottom:16px}.hero{line-height:52px;min-height:52px}.ticks{margin:8px 0}.stats b{line-height:24px;margin-top:2px}.coin-row{padding-top:5px;padding-bottom:5px}}
+.actions .button{min-width:102px}.embed-section .button{min-width:154px}
