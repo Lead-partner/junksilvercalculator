@@ -57,3 +57,17 @@ Other successful fetches, checked 14 Nov 2026 (not used for the guide facts):
 | `ngc-morgan.html` | https://www.ngccoin.com/coin-explorer/united-states/dollars/morgan-dollars-1878-1921/ | HTTP 200 application shell; use NGC's fetched centennial history instead. |
 | `ngc-peace.html` | https://www.ngccoin.com/coin-explorer/united-states/dollars/peace-dollars-1921-1935/ | HTTP 200 application shell; use NGC's fetched centennial history instead. |
 | `nist-sp811.pdf` and `.txt` | https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication811e2008.pdf | HTTP 200; Appendix B lists a rounded troy-ounce conversion. MP 286 confirms all digits used by the app. |
+
+## B3 source refresh — checked 14 Nov 2026
+
+For the new `/guides/which-coins-are-silver/` reference and the nickel/dime/quarter updates, the following sources were **fetched again now with curl** (`--fail --location -A 'Mozilla/5.0'`), all HTTP 200. Their archived files above were refreshed: NGC melt table, NGC US price guide, NGC wartime nickel history, NGC Morgan/Peace centennial history, NGC Kennedy grading history, GovInfo Coinage Act of 1965 and NIST MP 286. PDF text extracts were regenerated from the refreshed PDFs. URLs are recorded in the primary-source table above.
+
+| New saved file | Source URL | Evidence and limits |
+| --- | --- | --- |
+| [junk-silver-congress-2005.pdf](junk-silver-congress-2005.pdf) and [text](junk-silver-congress-2005.txt) | [GovInfo: Congressional Record, 21 June 2005, H4888–H4892](https://www.govinfo.gov/content/pkg/CREC-2005-06-21/pdf/CREC-2005-06-21-pt1-PgH4888-2.pdf) | Checked **14 Nov 2026**, HTTP 200. On H4891, a speaker uses “junk silver” for silver with no numismatic value. This is primary evidence of term usage, **not a statutory definition** or evidence for coin alloys. The guide explicitly makes that distinction. No investment advice, bag size, prices or other claims from the speech are adopted. |
+
+The new table has 14 series rows covering only the six existing calculator specifications. Each row's gross weight and fineness come from `COINS`; silver troy ounces come from `coinOzt()` to five decimals. NGC's fetched melt table confirms all listed series' weights, fineness and dates, including **Barber half dollars, 1892–1915**. NGC's original histories supply the interrupted Morgan/Peace date ranges and the late-1942 nickel change. The table deliberately does not add Eisenhower dollars or other specifications outside the existing calculator rows.
+
+“Junk silver” is presented as a valuation term. The guide's 90%/40%/35% scope combines that recorded usage with NGC's confirmed alloys and melt/collector distinction; it does not claim that every coin with those alloys has no collector premium. Circulated condition is not evidence of a particular coin's value. The 1965 clad explanation is supported by section 101; the regular Kennedy transition in 1971 and collector exceptions are supported by NGC's Kennedy history.
+
+The GreatCollections glossary was also attempted with curl during B3 but returned HTTP 403; it is not evidence and is not cited. No new attempt was made to bypass the previously documented U.S. Mint/PCGS blocks, and no facts supported only by those blocked sources were added.
