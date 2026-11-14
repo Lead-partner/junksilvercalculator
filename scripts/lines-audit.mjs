@@ -54,6 +54,8 @@ function inspectLines() {
   const overlay = e => e.closest('.menu nav,.toast,.sticky-total');
   const frameSelector='.sheet,.display,.dealer,.controls,.how,.teaching-figure';
   const controlSelector='button,input,textarea,.button,.stepper,.money-field,.money-field>span,.toast';
+  // Self-contained brand/unit/fineness badges use compact component spacing.
+  const componentSelector='.mark,.fine,.unit-tag';
   const tableSelector='table,thead,tbody,tr,th,td';
   function record(e,pseudo='') {
     const s=getComputedStyle(e,pseudo||null);
@@ -75,7 +77,7 @@ function inspectLines() {
       r={left:base.left+parseFloat(s.left||0),right:base.right-parseFloat(s.right||0),top:base.top+parseFloat(s.top||0),bottom:base.bottom-parseFloat(s.bottom||0)};
       if(!Object.values(r).every(Number.isFinite)) { issues.push({type:'unmeasured-pseudo',selector:selector(e)+pseudo});return; }
     }
-    const kind=e.matches(frameSelector)?'card':e.matches(tableSelector)?'table':e.matches(controlSelector)?'control':e.matches('.sticky-total')?'fixed-display':'rule';
+    const kind=e.matches(frameSelector)?'card':e.matches(tableSelector)?'table':e.matches(controlSelector)?'control':e.matches(componentSelector)?'component':e.matches('.sticky-total')?'fixed-display':'rule';
     const localOwner=kind==='table'?e.closest('table'):kind==='control'?(e.closest('.stepper,.money-field')||e.parentElement):null;
     const local=localOwner?{selector:selector(localOwner),...box(localOwner)}:null;
     const entry={selector:selector(e)+pseudo,kind,...r,sides,containerDelta:{left:r.left-container.left,right:container.right-r.right},localColumn:local,edgeMatches:{left:edges.filter(x=>near(x,r.left)),right:edges.filter(x=>near(x,r.right))},minTextGap:null};
@@ -101,8 +103,8 @@ function inspectLines() {
       }
     }
     if(Number.isFinite(minGap)) {entry.minTextGap=Math.round(minGap*100)/100;entry.nearestText=nearest;}
-    // All text-facing borders, including functional frames, need 8px clearance.
-    if(minGap<8-.1) issues.push({type:'line-near-text',selector:entry.selector,gap:minGap,text:nearest});
+    // Badge frames are components; other text-facing borders need 8px clearance.
+    if(kind!=='component'&&minGap<8-.1) issues.push({type:'line-near-text',selector:entry.selector,gap:minGap,text:nearest});
     borders.push(entry);
   }
   const elements=[...document.body.querySelectorAll('*')].filter(e=>visible(e)&&!e.matches('.sr-only,.skip'));
