@@ -14,7 +14,13 @@ node scripts/serve.mjs
 
 Open http://127.0.0.1:4173/. The deployable directory is `public/`; build copies local assets, generates all pages, checks the JavaScript gzip budget and fetches a fresh spot snapshot. Network failures keep the checked-in `public/spot.json` intact. The local preview emulates the production security headers and serves that snapshot at `/live/spot.json`.
 
-Source: `src/calc.js` (pure ES-module math and URL state), `src/app.js` (browser interactions), `src/pages.mjs` (HTML), `static/` (styles, self-hosted fonts, icons and social image). Nothing from `design-ref/` or `qa-shots/` is shipped.
+Source: `src/calc.js` (pure ES-module math and URL state), `src/app.js` (browser interactions), `src/pages.mjs` (shared HTML), `src/guides.mjs` (guide data/content), `src/content-pages.mjs` (guide and information pages), `static/` (styles, self-hosted fonts, icons and social image). Nothing from `design-ref/`, `sources-ref/` or `qa-shots/` is shipped. The research archive and fact/source mapping are in [`sources-ref/README.md`](sources-ref/README.md).
+
+## Guides and navigation
+
+The build generates `/guides/`, five articles under `/guides/<slug>/`, `/how-we-calculate/` and `/embed-code/`. Add article data in `src/guides.mjs`; routes, sitemap entries, related-guide links, Article/BreadcrumbList schema and checked-date source lists are generated from it. Article content uses `coinOzt()` for silver quantities and has no runtime JavaScript. Calculator dollar values stay in the live tool.
+
+The shared header links to real pages and uses a native `<details>` menu below 600px. FAQ remains on home. `/embed-code/` contains the human instructions and a small copy script; `/embed/` remains the noindex, frameable tool. `vercel.json` is unchanged.
 
 ## Silver price updates
 
@@ -38,11 +44,14 @@ Quantities, input modes, dealer percentage, worn mode, manual price and offer ar
 npm test
 npm run build
 npm run qa
+npm run qa:guides
 ```
 
 Browser QA uses Chrome’s DevTools protocol and Node’s built-in WebSocket (Node 22+ for Chrome utility scripts; build/tests support Node 20). It writes screenshots at 390×844 and 1280×900, checks zero horizontal overflow at 320/390/768/1280, and exercises live totals, face mode, worn mode, offer checks, clear/undo, URL restoration, fallback prices, the embed, metadata and security headers. QA artifacts stay in the ignored `qa-shots/` directory. Regenerate the committed 1200×630 OG image and PNG icons with `node scripts/generate-assets.mjs`.
 
-Verified on 13 November 2026: 17 unit tests and 46 browser checks passed. Lighthouse mobile scored **100 Performance / 100 Accessibility / 100 Best Practices / 100 SEO**, with **CLS 0**. Runtime JavaScript is **5,699 bytes gzip**. Both requested screenshots and the Lighthouse JSON report are in `qa-shots/`.
+`npm test` builds first, then runs the math/provider tests and built-HTML checks (sitemap existence, internal links, metadata limits, parsed Article/BreadcrumbList schema, source dates, article length and decoded calculator prefills). `npm run qa:guides` checks all nine requested pages at the four widths, no-JS mobile navigation, article-to-calculator prefills and embed snippet copying. It writes the requested `jsc-b2-*` screenshots and JSON report to `/workspace/gold-ira/free-apps/qa/`. The original `npm run qa` retains its calculator, offer, percentage and iframe checks.
+
+See [`qa-b2-results.md`](qa-b2-results.md) for the 14 Nov 2026 test and Lighthouse results.
 
 Production Vercel configuration is in `vercel.json`; the main site forbids framing and `/embed/` permits framing. The embed is noindex and excluded from the sitemap. No deployment is performed by build or QA. `.github/workflows/test.yml` runs tests on pushes and pull requests.
 

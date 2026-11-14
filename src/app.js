@@ -180,7 +180,6 @@ async function copy(text, button) {
   setTimeout(() => { button.textContent = original; }, 2000);
 }
 $('copy-link')?.addEventListener('click', () => { writeURL(); copy(location.href, $('copy-link')); });
-$('copy-embed')?.addEventListener('click', () => copy($('embed-code').value, $('copy-embed')));
 async function getJSON(url) {
   const response = await fetch(url, { signal: AbortSignal.timeout(10000), cache: 'no-cache' });
   if (!response.ok) throw Error('Price unavailable');
