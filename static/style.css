@@ -33,3 +33,4 @@
 @media(max-width:359px){.intro h1{font-size:31px;line-height:36px}.intro>p{font-size:16px;line-height:21px}.trust-row{font-size:11px;gap:0 8px}.trust-row li+li{padding-left:0}}
 /* Preserve four complete entry rows in the 390×844 first view. */
 @media(max-width:700px){body:not(.embed-page) .intro{padding-top:8px;padding-bottom:6px}body:not(.embed-page) .display{padding-top:10px;padding-bottom:12px}body:not(.embed-page) .hero{margin-top:0}body:not(.embed-page) .stats{margin-top:6px}body:not(.embed-page) .dealer{padding-top:9px;padding-bottom:6px}body:not(.embed-page) .coin-row{padding-top:3px;padding-bottom:4px}}
+@media(max-width:599px){body:not(.embed-page) .intro{padding-top:4px}}
