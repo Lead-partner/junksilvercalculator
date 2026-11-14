@@ -3,6 +3,7 @@ import { COINS, coinOzt } from './calc.js';
 export const CHECKED = '14 Nov 2026';
 export const DATE = '2026-11-14';
 export const SOURCES = {
+  wear: ['JM Bullion: silver melt value and the 0.715 face-value shorthand', 'https://www.jmbullion.com/investing-guide/selling/silver-coin-melt-value/'],
   melt: ['NGC: U.S. Silver Coin Melt Values', 'https://www.ngccoin.com/price-guide/coin-melt-values.aspx'],
   guide: ['NGC: U.S. Coin Price Guide', 'https://www.ngccoin.com/price-guide/united-states/'],
   act: ['Coinage Act of 1965, section 101', 'https://www.govinfo.gov/content/pkg/STATUTE-79/pdf/STATUTE-79-Pg254.pdf'],

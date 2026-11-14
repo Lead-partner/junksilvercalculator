@@ -20,7 +20,7 @@ const cases = {
 
 test('every sitemap URL exists, is canonical and carries the required metadata and navigation', async () => {
   const xml = await readFile('public/sitemap.xml','utf8');
-  const entries = [...xml.matchAll(/<url><loc>(.*?)<\/loc><lastmod>(.*?)<\/lastmod><\/url>/g)];
+  const entries = [...xml.matchAll(/<url><loc>(.*?)<\/loc><lastmod>(.*?)<\/lastmod>.*?<\/url>/g)];
   assert.equal(entries.length,GUIDES.length+6);
   const titles = new Set(), descriptions = new Set();
   for (const [,loc,date] of entries) {
@@ -69,9 +69,11 @@ for(const guide of GUIDES) test(`${guide.slug}: static article metadata, content
   for(const paragraph of article.matchAll(/<p(?: [^>]*)?>(.*?)<\/p>/gs)) {
     assert.ok([...sentenceCounter.segment(text(paragraph[1]))].length<=3,text(paragraph[1]));
   }
-  const visible = text(article.replace(/<details>.*?<\/details>/gs,''));
+  // The prose budget excludes newly requested photo captions and exact data figures.
+  const prose=article.replace(/<figure\b.*?<\/figure>/gs,'');
+  const visible = text(prose.replace(/<details>.*?<\/details>/gs,''));
   const words = visible.split(/\s+/).length;
-  const withoutTable = text(article.replace(/<details>.*?<\/details>/gs,'').replace(/<table\b.*?<\/table>/gs,'')).split(/\s+/).length;
+  const withoutTable = text(prose.replace(/<details>.*?<\/details>/gs,'').replace(/<table\b.*?<\/table>/gs,'')).split(/\s+/).length;
   assert.ok(words>=500&&(words<=900||(guide.slug==='which-coins-are-silver'&&withoutTable<=900)),`${words} visible words (${withoutTable} outside table)`);
   assert.doesNotMatch(html,/<script[^>]*src=/);
   assert.doesNotMatch(article,/\$\d+[.,]\d{2}\b/,'No fixed market values');

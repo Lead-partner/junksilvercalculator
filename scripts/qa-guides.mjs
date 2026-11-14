@@ -11,22 +11,32 @@ const {server,url} = await startServer();
 const chrome = await launchChrome();
 const checks = [];
 const check = (label,value) => { assert.ok(value,label); checks.push(label); console.log('PASS '+label); };
-const pages = [['home','/'],['guides','/guides/'],...GUIDES.map(g=>[g.slug,`/guides/${g.slug}/`]),['how-we-calculate','/how-we-calculate/'],['embed-code','/embed-code/']];
+const pages = [['home','/'],['guides','/guides/'],...GUIDES.map(g=>[g.slug,`/guides/${g.slug}/`]),['how-we-calculate','/how-we-calculate/'],['embed-code','/embed-code/'],['about','/about/'],['contact','/contact/'],['embed','/embed/'],['404','/404.html']];
 try {
   for(const [name,path] of pages) {
     for(const width of [320,390,768,1280]) {
       const page = await chrome.page(width,width===1280?900:844);
-      await page.navigate(url+path,path==='/');
+      await page.navigate(url+path,path==='/'||path==='/embed/');
       const sizes = await page.evaluate('({width:innerWidth,scroll:document.documentElement.scrollWidth})');
       check(`${name}: no overflow at ${width}px (${sizes.scroll} ≤ ${sizes.width})`,sizes.scroll<=sizes.width);
       check(`${name}: no browser exceptions at ${width}px`,!page.errors.length);
       if(name==='which-coins-are-silver') check(`Reference table: numeric cells stay on one line at ${width}px`,await page.evaluate("[...document.querySelectorAll('.coin-reference td.n')].every(cell=>{const range=document.createRange();range.selectNodeContents(cell);return range.getClientRects().length===1})"));
-      if(width===390||width===1280) await page.screenshot(`${output}/jsc-b3-${name}-${width}.png`);
-      if(width<600) {
+      if(width===390||width===1280) {
+        await page.screenshot(`${output}/jsc-b4-${name}-${width}.png`);
+        if(name==='home') await page.screenshot(`${output}/jsc-hero-after-${width}.png`);
+        if(['silver-nickels','silver-half-dollar-value'].includes(name)) {
+          // Scroll through lazy figures before a full-document capture.
+          await page.evaluate("Promise.all([...document.images].map(i=>{i.loading='eager';return i.decode()})).then(()=>true)");
+          const size=await page.command('Page.getLayoutMetrics');
+          const {data}=await page.command('Page.captureScreenshot',{format:'png',captureBeyondViewport:true,clip:{x:0,y:0,width,height:size.cssContentSize.height,scale:1}});
+          await writeFile(`${output}/jsc-b4-${name}-${width}-full.png`,Buffer.from(data,'base64'));
+        }
+      }
+      if(width<600 && name!=='embed') {
         await page.evaluate("document.querySelector('.menu summary').click()");
         check(`${name}: mobile menu opens at ${width}px`,await page.evaluate("document.querySelector('.menu').open && [...document.querySelectorAll('.menu nav a')].every(a=>{const r=a.getBoundingClientRect();return r.height>=44&&r.width>=44&&r.left>=0&&r.right<=innerWidth})"));
         check(`${name}: open menu has no overflow at ${width}px`,await page.evaluate('document.documentElement.scrollWidth<=innerWidth'));
-        if(name==='home'&&width===390) await page.screenshot(`${output}/jsc-b3-menu-open-390.png`);
+        if(name==='home'&&width===390) await page.screenshot(`${output}/jsc-b4-menu-open-390.png`);
       }
       if(path!=='/'&&width===390) {
         await page.evaluate("[...document.querySelectorAll('main details')].forEach(d=>d.open=true)");
@@ -79,8 +89,8 @@ try {
   check('Embed copy button writes the exact snippet',await copy.evaluate("navigator.clipboard.readText().then(value=>value===document.getElementById('embed-code').value)"));
   await copy.close();
   const data = {passed:checks.length,checks,pages:pages.map(([,path])=>path),widths:[320,390,768,1280]};
-  await writeFile(`${output}/jsc-b3-report.json`,JSON.stringify(data,null,2)+'\n');
-  console.log(`${checks.length} guide/browser checks passed; screenshots: ${output}/jsc-b3-*.png`);
+  await writeFile(`${output}/jsc-b4-report.json`,JSON.stringify(data,null,2)+'\n');
+  console.log(`${checks.length} guide/browser checks passed; screenshots: ${output}/jsc-b4-*.png`);
 } finally {
   await chrome.close();
   await new Promise(ok=>server.close(ok));

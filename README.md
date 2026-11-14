@@ -49,7 +49,7 @@ npm run qa:guides
 
 Browser QA uses Chrome’s DevTools protocol and Node’s built-in WebSocket (Node 22+ for Chrome utility scripts; build/tests support Node 20). It writes screenshots at 390×844 and 1280×900, checks zero horizontal overflow at 320/390/768/1280, and exercises live totals, face mode, worn mode, offer checks, clear/undo, URL restoration, fallback prices, the embed, metadata and security headers. QA artifacts stay in the ignored `qa-shots/` directory. Regenerate the committed 1200×630 OG image and PNG icons with `node scripts/generate-assets.mjs`.
 
-`npm test` builds first, then runs the math/provider tests and built-HTML checks (sitemap existence, internal links, metadata limits, parsed Article/BreadcrumbList schema, source dates, article length and decoded calculator prefills). `npm run qa:guides` checks all ten pages at the four widths, no-JS mobile navigation, article-to-calculator prefills, all six reference-table calculator rows, unwrapped table quantities and embed snippet copying. It writes the requested `jsc-b3-*` screenshots and JSON report to `/workspace/gold-ira/free-apps/qa/`. The original `npm run qa` retains its calculator, offer, percentage and iframe checks.
+`npm test` builds first, then runs the math/provider tests and built-HTML checks (sitemap existence, internal links, metadata limits, parsed Article/BreadcrumbList schema, source dates, article length and decoded calculator prefills). `npm run qa:guides` checks all fourteen built routes at the four widths, no-JS mobile navigation, article-to-calculator prefills, all six reference-table calculator rows, unwrapped table quantities and embed snippet copying. It writes the requested `jsc-b4-*` screenshots and JSON report to `/workspace/gold-ira/free-apps/qa/`. The original `npm run qa` retains its calculator, offer, percentage and iframe checks.
 
 B3 verification, checked 14 Nov 2026: `npm test` passes 27/27, `npm run build` passes (5,997 bytes gzip of runtime JS), and `npm run qa:guides` passes 164/164 checks across ten pages at 320/390/768/1280 pixels. The new `/guides/which-coins-are-silver/` has 14 sourced series rows covering the six calculator specifications, a 48-word opening answer and 863 visible words. The nickel guide now targets war nickels; dime/quarter titles are preserved. Every existing guide links to the new reference.
 
@@ -66,3 +66,20 @@ Production Vercel configuration is in `vercel.json`; the main site forbids frami
 ## License
 
 MIT; see [LICENSE](LICENSE). Self-hosted Barlow Semi Condensed (400/500/600) and IBM Plex Mono (400/500) are distributed under the SIL Open Font License; notices are in `static/fonts/`.
+
+B4 image/content update, checked 14 Nov 2026: Commons photo pairs for all 14 listed series/alloys, licensed edge comparison, and data-derived SVG teaching figures. Provenance and visual-review notes live in `docs/images/credits.md` and `static/img/credits.json`; no AI artwork is used. `src/figures.mjs` shares figure markup, credit links and the series-to-guide mapping. Home content is in `src/home-content.mjs`; figures retain fixed intrinsic dimensions.
+
+To regenerate media after an intentional source/data change:
+
+```sh
+python3 scripts/prepare-images.py     # Commons API + downloads; requests/Pillow required
+# View every new original before accepting it or changing crop coordinates.
+python3 scripts/normalize-images.py  # reviewed crop coordinates → AVIF/WebP pairs
+node scripts/generate-figures.mjs    # SVGs from COINS, coinOzt and TROY_GRAMS
+node scripts/generate-page-og.mjs    # page-specific 1200×630 PNGs via local Chrome
+npm test
+npm run qa
+npm run qa:guides
+```
+
+Original downloads/review previews stay in ignored `sources-ref/images/originals/`; API metadata and delivery assets are committed. Do not use `generate-assets.mjs` to regenerate the B4 social cards; it only manages the older fallback card and icons. The new image tests check asset references, alt text/dimensions, lead/body figures, social-card size, structured image objects, licenses and image sitemap entries. B4 screenshots and full-page captures of the nickel and half-dollar guides use the `jsc-b4-*` prefix in `/workspace/gold-ira/free-apps/qa/`; home hero captures are `jsc-hero-after-390.png` and `jsc-hero-after-1280.png`.
