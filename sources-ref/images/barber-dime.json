@@ -1,0 +1,92 @@
+{
+  "pageid": 42903392,
+  "ns": 6,
+  "title": "File:NNC-US-1892-10C-Barber Dime.jpg",
+  "imagerepository": "local",
+  "imageinfo": [
+    {
+      "size": 13311467,
+      "width": 7380,
+      "height": 3750,
+      "url": "https://upload.wikimedia.org/wikipedia/commons/8/84/NNC-US-1892-10C-Barber_Dime.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:NNC-US-1892-10C-Barber_Dime.jpg",
+      "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=42903392",
+      "extmetadata": {
+        "DateTime": {
+          "value": "2015-09-04 20:07:43",
+          "source": "mediawiki-metadata",
+          "hidden": ""
+        },
+        "ObjectName": {
+          "value": "NNC-US-1892-10C-Barber Dime",
+          "source": "mediawiki-metadata"
+        },
+        "CommonsMetadataExtension": {
+          "value": 1.2,
+          "source": "extension",
+          "hidden": ""
+        },
+        "Categories": {
+          "value": "PD US money|Coins of the United States by Charles Edward Barber|Items with VRTS permission confirmed|PD US SI|NNC coins uploaded by User:Godot13|All Images by User:Godot13|Philadelphia Mint coins|Barber dimes|Coins (NNC)|2015 User:Godot13",
+          "source": "commons-categories",
+          "hidden": ""
+        },
+        "Assessments": {
+          "value": "",
+          "source": "commons-categories",
+          "hidden": ""
+        },
+        "ImageDescription": {
+          "value": "1892-10C-Barber Dime<br>JN2015-6621-22",
+          "source": "commons-desc-page"
+        },
+        "DateTimeOriginal": {
+          "value": "1892",
+          "source": "commons-desc-page"
+        },
+        "Credit": {
+          "value": "National Numismatic Collection, National Museum of American History",
+          "source": "commons-desc-page"
+        },
+        "Artist": {
+          "value": "US Mint (coin), National Numismatic Collection (photograph by Jaclyn Nash)",
+          "source": "commons-desc-page"
+        },
+        "Permission": {
+          "value": "Use of this image should give credit to the <b><a href=\"https://en.wikipedia.org/wiki/National_Numismatic_Collection\" class=\"extiw\" title=\"w:National Numismatic Collection\">National Numismatic Collection</a>, <a href=\"https://en.wikipedia.org/wiki/National_Museum_of_American_History\" class=\"extiw\" title=\"w:National Museum of American History\">National Museum of American History</a></b>.",
+          "source": "commons-desc-page",
+          "hidden": ""
+        },
+        "LicenseShortName": {
+          "value": "Public domain",
+          "source": "commons-desc-page",
+          "hidden": ""
+        },
+        "UsageTerms": {
+          "value": "Public domain",
+          "source": "commons-desc-page"
+        },
+        "AttributionRequired": {
+          "value": "false",
+          "source": "commons-desc-page",
+          "hidden": ""
+        },
+        "Copyrighted": {
+          "value": "False",
+          "source": "commons-desc-page",
+          "hidden": ""
+        },
+        "Restrictions": {
+          "value": "",
+          "source": "commons-desc-page",
+          "hidden": ""
+        },
+        "License": {
+          "value": "pd",
+          "source": "commons-templates",
+          "hidden": ""
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "pageid": 154021385,
+  "ns": 6,
+  "title": "File:1964-USA-half-dollar-Kennedy-d.jpg",
+  "imagerepository": "local",
+  "imageinfo": [
+    {
+      "size": 41175,
+      "width": 431,
+      "height": 453,
+      "url": "https://upload.wikimedia.org/wikipedia/commons/7/7c/1964-USA-half-dollar-Kennedy-d.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:1964-USA-half-dollar-Kennedy-d.jpg",
+      "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=154021385",
+      "extmetadata": {
+        "DateTime": {
+          "value": "2024-10-17 18:19:20",
+          "source": "mediawiki-metadata",
+          "hidden": ""
+        },
+        "ObjectName": {
+          "value": "1964-USA-half-dollar-Kennedy-d",
+          "source": "mediawiki-metadata"
+        },
+        "CommonsMetadataExtension": {
+          "value": 1.2,
+          "source": "extension",
+          "hidden": ""
+        },
+        "Categories": {
+          "value": "Kennedy half dollar|Self-published work|1964 coins collection by AM|Coins collection by AM|Coins collection by AM - USA|Philadelphia Mint coins",
+          "source": "commons-categories",
+          "hidden": ""
+        },
+        "Assessments": {
+          "value": "",
+          "source": "commons-categories",
+          "hidden": ""
+        },
+        "ImageDescription": {
+          "value": "Half-dollar USA 1964 Kennedy",
+          "source": "commons-desc-page"
+        },
+        "DateTimeOriginal": {
+          "value": "1964",
+          "source": "commons-desc-page"
+        },
+        "Credit": {
+          "value": "collezione monete Albertomos",
+          "source": "commons-desc-page"
+        },
+        "Artist": {
+          "value": "<a href=\"//commons.wikimedia.org/wiki/User:Albertomos\" title=\"User:Albertomos\">Albertomos</a>",
+          "source": "commons-desc-page"
+        },
+        "LicenseShortName": {
+          "value": "CC BY 4.0",
+          "source": "commons-desc-page",
+          "hidden": ""
+        },
+        "UsageTerms": {
+          "value": "Creative Commons Attribution 4.0",
+          "source": "commons-desc-page"
+        },
+        "AttributionRequired": {
+          "value": "true",
+          "source": "commons-desc-page",
+          "hidden": ""
+        },
+        "LicenseUrl": {
+          "value": "https://creativecommons.org/licenses/by/4.0",
+          "source": "commons-desc-page"
+        },
+        "Copyrighted": {
+          "value": "True",
+          "source": "commons-desc-page",
+          "hidden": ""
+        },
+        "Restrictions": {
+          "value": "",
+          "source": "commons-desc-page",
+          "hidden": ""
+        },
+        "License": {
+          "value": "cc-by-4.0",
+          "source": "commons-templates",
+          "hidden": ""
+        }
+      }
+    }
+  ]
+}

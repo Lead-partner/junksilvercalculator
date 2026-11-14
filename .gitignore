@@ -5,3 +5,4 @@ node_modules/
 public/*
 !public/spot.json
 .env.local
+sources-ref/images/originals/

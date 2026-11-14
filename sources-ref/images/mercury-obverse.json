@@ -1,0 +1,87 @@
+{
+  "pageid": 27568820,
+  "ns": 6,
+  "title": "File:1943D Mercury Dime obverse.jpg",
+  "imagerepository": "local",
+  "imageinfo": [
+    {
+      "size": 2507488,
+      "width": 2500,
+      "height": 2500,
+      "url": "https://upload.wikimedia.org/wikipedia/commons/3/3c/1943D_Mercury_Dime_obverse.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:1943D_Mercury_Dime_obverse.jpg",
+      "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=27568820",
+      "extmetadata": {
+        "DateTime": {
+          "value": "2013-08-04 23:26:01",
+          "source": "mediawiki-metadata",
+          "hidden": ""
+        },
+        "ObjectName": {
+          "value": "1943D Mercury Dime obverse",
+          "source": "mediawiki-metadata"
+        },
+        "CommonsMetadataExtension": {
+          "value": 1.2,
+          "source": "extension",
+          "hidden": ""
+        },
+        "Categories": {
+          "value": "GFDL|PD US money|Mercury dimes|License migration redundant|Self-published work|1943 coins|Denver Mint coins|Libertas on coins",
+          "source": "commons-categories",
+          "hidden": ""
+        },
+        "Assessments": {
+          "value": "",
+          "source": "commons-categories",
+          "hidden": ""
+        },
+        "ImageDescription": {
+          "value": "The obverse of a Mercury dime minted in 1943 in Denver.  The mint mark is on the reverse of the coin (see other related file).  This coin is uncirculated exhibiting full luster and strike.",
+          "source": "commons-desc-page"
+        },
+        "DateTimeOriginal": {
+          "value": "August 4, 2013 for the photograph; 1916 for the coin design; 1943 for the minting of the coin.",
+          "source": "commons-desc-page"
+        },
+        "Credit": {
+          "value": "Actual coin.",
+          "source": "commons-desc-page"
+        },
+        "Artist": {
+          "value": "<a href=\"//commons.wikimedia.org/wiki/User:BrandonBigheart\" title=\"User:BrandonBigheart\">BrandonBigheart</a> for the photograph; Adolph Weinman for the coin design.",
+          "source": "commons-desc-page"
+        },
+        "LicenseShortName": {
+          "value": "Public domain",
+          "source": "commons-desc-page",
+          "hidden": ""
+        },
+        "UsageTerms": {
+          "value": "Public domain",
+          "source": "commons-desc-page"
+        },
+        "AttributionRequired": {
+          "value": "false",
+          "source": "commons-desc-page",
+          "hidden": ""
+        },
+        "Copyrighted": {
+          "value": "False",
+          "source": "commons-desc-page",
+          "hidden": ""
+        },
+        "Restrictions": {
+          "value": "",
+          "source": "commons-desc-page",
+          "hidden": ""
+        },
+        "License": {
+          "value": "pd",
+          "source": "commons-templates",
+          "hidden": ""
+        }
+      }
+    }
+  ]
+}

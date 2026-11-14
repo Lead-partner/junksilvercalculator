@@ -1,0 +1,92 @@
+{
+  "pageid": 15952431,
+  "ns": 6,
+  "title": "File:Silver Roosevelt Dime.jpg",
+  "imagerepository": "local",
+  "imageinfo": [
+    {
+      "size": 21961,
+      "width": 301,
+      "height": 142,
+      "url": "https://upload.wikimedia.org/wikipedia/commons/9/94/Silver_Roosevelt_Dime.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Silver_Roosevelt_Dime.jpg",
+      "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=15952431",
+      "extmetadata": {
+        "DateTime": {
+          "value": "2011-07-31 00:45:56",
+          "source": "mediawiki-metadata",
+          "hidden": ""
+        },
+        "ObjectName": {
+          "value": "Silver Roosevelt Dime",
+          "source": "mediawiki-metadata"
+        },
+        "CommonsMetadataExtension": {
+          "value": 1.2,
+          "source": "extension",
+          "hidden": ""
+        },
+        "Categories": {
+          "value": "PD US money|Roosevelt dimes|Self-published work|Denver Mint coins",
+          "source": "commons-categories",
+          "hidden": ""
+        },
+        "Assessments": {
+          "value": "",
+          "source": "commons-categories",
+          "hidden": ""
+        },
+        "ImageDescription": {
+          "value": "Both sides of a Silver Roosevelt Dime from 1953.",
+          "source": "commons-desc-page"
+        },
+        "DateTimeOriginal": {
+          "value": "2011-07-30",
+          "source": "commons-desc-page"
+        },
+        "Credit": {
+          "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+          "source": "commons-desc-page"
+        },
+        "Artist": {
+          "value": "<a href=\"//commons.wikimedia.org/wiki/User:Aamsse\" title=\"User:Aamsse\">Aamsse</a> (photo), John R. Sinnock (coin)",
+          "source": "commons-desc-page"
+        },
+        "Permission": {
+          "value": "If you use this image outside of Wikia or Wikimedia, an <a rel=\"nofollow\" class=\"external text\" href=\"mailto:userdser@yahoo.com\">email</a> would be appreciated.",
+          "source": "commons-desc-page",
+          "hidden": ""
+        },
+        "LicenseShortName": {
+          "value": "Public domain",
+          "source": "commons-desc-page",
+          "hidden": ""
+        },
+        "UsageTerms": {
+          "value": "Public domain",
+          "source": "commons-desc-page"
+        },
+        "AttributionRequired": {
+          "value": "false",
+          "source": "commons-desc-page",
+          "hidden": ""
+        },
+        "Copyrighted": {
+          "value": "False",
+          "source": "commons-desc-page",
+          "hidden": ""
+        },
+        "Restrictions": {
+          "value": "",
+          "source": "commons-desc-page",
+          "hidden": ""
+        },
+        "License": {
+          "value": "pd",
+          "source": "commons-templates",
+          "hidden": ""
+        }
+      }
+    }
+  ]
+}
