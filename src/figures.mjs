@@ -22,13 +22,13 @@ export function photoCredits(key) {
  const rows=credits.filter(c=>c.id===key||c.id===key+'-obverse'||c.id===key+'-reverse');
  return rows.map(c=>`<a href="${e(c.filePage)}">${e(c.id.endsWith('-obverse')?'Obverse':c.id.endsWith('-reverse')?'Reverse':'Photo')}: ${e(c.author)}</a> · <a href="${e(c.licenseUrl)}">${e(c.license)}</a>`).join('; ');
 }
-export function picture(key,alt,width=960,height=480,small=false) {
- const sizes=small?'(max-width: 599px) calc(100vw - 64px), 360px':'(max-width: 700px) calc(100vw - 34px), 738px';
- return `<picture><source type="image/avif" srcset="/img/coins/${key}-480.avif 480w${small?'':`, /img/coins/${key}-960.avif 960w`}" sizes="${sizes}"><source type="image/webp" srcset="/img/coins/${key}-480.webp 480w${small?'':`, /img/coins/${key}-960.webp 960w`}" sizes="${sizes}"><img src="/img/coins/${key}-480.webp" alt="${e(alt)}" width="${width}" height="${height}" loading="lazy" decoding="async"></picture>`;
+export function picture(key,alt,width=960,height=480,small=false,eager=false) {
+ const sizes=small?'(max-width: 599px) calc(100vw - 64px), 360px':'(max-width: 700px) calc(100vw - 34px), (max-width: 870px) calc(100vw - 50px), 818px';
+ return `<picture><source type="image/avif" srcset="/img/coins/${key}-480.avif 480w${small?'':`, /img/coins/${key}-960.avif 960w`}" sizes="${sizes}"><source type="image/webp" srcset="/img/coins/${key}-480.webp 480w${small?'':`, /img/coins/${key}-960.webp 960w`}" sizes="${sizes}"><img src="/img/coins/${key}-480.webp" alt="${e(alt)}" width="${width}" height="${height}" loading="${eager?'eager':'lazy'}"${eager?' fetchpriority="high"':''} decoding="async"></picture>`;
 }
-export function coinFigure(key,small=false,link=false) {
+export function coinFigure(key,small=false,link=false,eager=false) {
  const s=SERIES.find(s=>s.key===key),c=COINS.find(c=>c.id===s.id);
- const media=picture(key,`${s.name}, obverse left and reverse right. ${s.note}`,960,480,small);
+ const media=picture(key,`${s.name}, obverse left and reverse right. ${s.note}`,960,480,small,eager);
  return `<figure class="teaching-figure coin-figure">${link?`<a href="/guides/${s.guide}/" aria-label="Identify ${e(s.name)}">${media}</a>`:media}<figcaption><strong>${link?`<a href="/guides/${s.guide}/">${e(s.name)}</a>`:e(s.name)} · ${s.dates}.</strong> ${s.note} ${c.fine*100}% silver; ${coinOzt(c,1).toFixed(5)} troy oz at minted weight. <span class="image-credit">${photoCredits(key)}. Cropped and resized; backgrounds replaced.</span></figcaption></figure>`;
 }
 export function coinGrid(keys=SERIES.map(s=>s.key)) {return `<div class="coin-gallery">${keys.map(key=>coinFigure(key,true,true)).join('')}</div>`;}

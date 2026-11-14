@@ -45,6 +45,7 @@ npm test
 npm run build
 npm run qa
 npm run qa:guides
+npm run qa:lines
 ```
 
 Browser QA uses Chrome’s DevTools protocol and Node’s built-in WebSocket (Node 22+ for Chrome utility scripts; build/tests support Node 20). It writes screenshots at 390×844 and 1280×900, checks zero horizontal overflow at 320/390/768/1280, and exercises live totals, face mode, worn mode, offer checks, clear/undo, URL restoration, fallback prices, the embed, metadata and security headers. QA artifacts stay in the ignored `qa-shots/` directory. Regenerate the committed 1200×630 OG image and PNG icons with `node scripts/generate-assets.mjs`.
@@ -56,6 +57,8 @@ B3 verification, checked 14 Nov 2026: `npm test` passes 27/27, `npm run build` p
 Lighthouse 13.6.0 mobile on the new article scores **100 performance / 100 accessibility / 100 best practices / 100 SEO**, with no run warnings. Reports are `/workspace/gold-ira/free-apps/qa/jsc-b3-lighthouse-which-coins-are-silver.report.{html,json}`; the guide browser report is `jsc-b3-report.json` in that directory. Screenshots use `jsc-b3-<slug>-390.png` and `jsc-b3-<slug>-1280.png`; additional table inspection confirmed readable, unwrapped silver quantities at 320 pixels. NGC, GovInfo and NIST evidence was fetched again with curl and archived; source URLs, checked date, definition scope and exclusions are documented in [`sources-ref/README.md`](sources-ref/README.md).
 
 The additional original `npm run qa` did not complete: one attempt timed out at Chrome DevTools `Page.navigate`; the second passed 32 checks (including coin entry, face/worn modes, offers, URL restoration and price fallbacks) before a `Page.enable` timeout. No calculator assertion failed, but the remainder of that optional suite is unverified in B3. The requested guide suite completed successfully. Testing is local; nothing was pushed or deployed. Earlier B2 results remain in [`qa-b2-results.md`](qa-b2-results.md).
+
+B5 layout/line audit: header, hero, calculator and footer share the same 1440px outer container. Long-form content uses an 820px measure aligned to its left edge. Decorative section, FAQ, list, caption and display rules are removed, along with the redundant home section eyebrow. `npm run qa:lines` runs `/usr/bin/google-chrome` across all fourteen routes at 320/390/768/1280/1440px, checks default/expanded states plus large calculator quantities and the clear notice, and verifies its detectors with injected faults. It saves every visible border’s geometry, text clearance and findings to [`docs/qa/lines-audit.json`](docs/qa/lines-audit.json). Viewport and full-page screenshots are `/workspace/gold-ira/free-apps/qa/jsc-b5-<page>-<390|1280>[-full].png`. Verification and Lighthouse scores are recorded in [`docs/qa/b5-results.json`](docs/qa/b5-results.json).
 
 Production Vercel configuration is in `vercel.json`; the main site forbids framing and `/embed/` permits framing. The embed is noindex and excluded from the sitemap. No deployment is performed by build or QA. `.github/workflows/test.yml` runs tests on pushes and pull requests.
 

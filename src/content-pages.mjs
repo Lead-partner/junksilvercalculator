@@ -20,7 +20,7 @@ export function guidePage(guide) {
     breadcrumbs([['Guides','/guides/'],[guide.h1,path]])
   ];
   const keys=guideCoins(guide.slug);
-  const lead=coinFigure(keys[0]||'roosevelt');
+  const lead=coinFigure(keys[0]||'roosevelt',false,false,true);
   const mintmark={ 'silver-dime-value':'roosevelt','silver-quarter-value':'washington','silver-nickels':'war-nickel' }[guide.slug];
   const teaching=mintmark?mintmarkFigure(mintmark):dataFigure(guide.slug==='silver-dollar-melt-value'?'melt-formula':'silver-content');
   const extra=guide.slug==='which-coins-are-silver'?`<h2>A photo reference for the silver series</h2><p>Obverse is at left and reverse at right in each pair. Match the dates as well as the design; photographs are shown at a consistent display size, not at relative physical scale.</p>${coinGrid()}`:keys.length>1?`<h2>Recognize the other designs</h2>${coinGrid(keys.slice(1))}`:'';

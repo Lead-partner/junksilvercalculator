@@ -12,6 +12,7 @@
     "build": "node scripts/build.mjs",
     "qa": "node scripts/qa.mjs",
     "pretest": "npm run build",
-    "qa:guides": "node scripts/qa-guides.mjs"
+    "qa:guides": "node scripts/qa-guides.mjs",
+    "qa:lines": "node scripts/lines-audit.mjs"
   }
 }

@@ -1,0 +1,201 @@
+{
+  "generatedAt": "2026-11-14T10:59:13.597Z",
+  "scope": "B5 shared layout grid and decorative line cleanup; local verification only",
+  "changes": {
+    "grid": [
+      ".wrap",
+      ".ft",
+      ".page.wrap>*",
+      ".home-reading",
+      ".mintmark-figure",
+      ".menu nav"
+    ],
+    "removedDecorativeBorders": [
+      ".display (inset frame)",
+      ".ticks",
+      ".stats>div+div",
+      ".sheet-hd",
+      ".column-head",
+      ".coin-row",
+      ".fine",
+      "details",
+      ".controls details:last-of-type",
+      ".faq",
+      ".how dl",
+      ".how dl div",
+      ".ft",
+      ".sticky-total",
+      ".trust-row li+li",
+      ".teaching-figure figcaption",
+      ".formula-text",
+      ".guide-list li",
+      ".article-sources"
+    ],
+    "removedEyebrow": ".home-reading > section:first-child > .overline",
+    "functionalClearance": [
+      ".chips button::before",
+      ".coin-row",
+      ".page p>.button.secondary"
+    ],
+    "guideLeadPhoto": {
+      "selector": "article > figure.coin-figure:first-of-type picture img",
+      "loading": "eager",
+      "fetchpriority": "high",
+      "width": 960,
+      "height": 480,
+      "verifiedGuides": 6,
+      "otherImages": "lazy; no high fetch priority"
+    },
+    "interruptionRecovery": "Restored truncated tail of src/figures.mjs from HEAD while preserving in-progress image edits"
+  },
+  "audit": {
+    "report": "docs/qa/lines-audit.json",
+    "pages": 14,
+    "widths": [
+      320,
+      390,
+      768,
+      1280,
+      1440
+    ],
+    "checks": 160,
+    "borderRecords": 3875,
+    "findings": 0,
+    "detectorChecks": [
+      {
+        "type": "unaligned-border",
+        "detected": true
+      },
+      {
+        "type": "decorative-rule",
+        "detected": true
+      },
+      {
+        "type": "double-border",
+        "detected": true
+      },
+      {
+        "type": "line-near-text",
+        "detected": true
+      },
+      {
+        "type": "container-overflow",
+        "detected": true
+      }
+    ],
+    "horizontalOverflow": 0
+  },
+  "validation": [
+    {
+      "command": "npm test",
+      "passed": 33,
+      "failed": 0
+    },
+    {
+      "command": "npm run build",
+      "status": "passed",
+      "runtimeJsGzipBytes": 5997
+    },
+    {
+      "command": "npm run qa",
+      "passed": 46,
+      "failed": 0
+    },
+    {
+      "command": "npm run qa:guides",
+      "passed": 212,
+      "failed": 0
+    },
+    {
+      "command": "npm run qa:lines",
+      "status": "passed"
+    }
+  ],
+  "lighthouseCommand": "npx -y lighthouse@12 <url> --form-factor=mobile --chrome-flags='--headless=new --no-sandbox' --output=json",
+  "lighthouse": [
+    {
+      "page": "home",
+      "report": "/workspace/gold-ira/free-apps/qa/jsc-b5-lighthouse-home.report.json",
+      "lighthouseVersion": "12.8.2",
+      "formFactor": "mobile",
+      "scores": {
+        "performance": 99,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "metrics": {
+        "first-contentful-paint": {
+          "value": 1127.5585,
+          "display": "1.1 s"
+        },
+        "largest-contentful-paint": {
+          "value": 2104.0936,
+          "display": "2.1 s"
+        },
+        "total-blocking-time": {
+          "value": 0,
+          "display": "0 ms"
+        },
+        "cumulative-layout-shift": {
+          "value": 0,
+          "display": "0"
+        },
+        "speed-index": {
+          "value": 1127.5585,
+          "display": "1.1 s"
+        }
+      },
+      "warnings": []
+    },
+    {
+      "page": "silver-quarter-value",
+      "report": "/workspace/gold-ira/free-apps/qa/jsc-b5-lighthouse-silver-quarter-value.report.json",
+      "lighthouseVersion": "12.8.2",
+      "formFactor": "mobile",
+      "scores": {
+        "performance": 99,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "metrics": {
+        "first-contentful-paint": {
+          "value": 901.9583,
+          "display": "0.9 s"
+        },
+        "largest-contentful-paint": {
+          "value": 2177.93745,
+          "display": "2.2 s"
+        },
+        "total-blocking-time": {
+          "value": 0,
+          "display": "0 ms"
+        },
+        "cumulative-layout-shift": {
+          "value": 0,
+          "display": "0"
+        },
+        "speed-index": {
+          "value": 901.9583,
+          "display": "0.9 s"
+        }
+      },
+      "warnings": []
+    }
+  ],
+  "screenshots": [
+    "/workspace/gold-ira/free-apps/qa/jsc-b5-home-390.png",
+    "/workspace/gold-ira/free-apps/qa/jsc-b5-home-1280.png",
+    "/workspace/gold-ira/free-apps/qa/jsc-b5-silver-quarter-value-390.png",
+    "/workspace/gold-ira/free-apps/qa/jsc-b5-silver-quarter-value-1280.png"
+  ],
+  "visualInspection": "Home and quarter guide checked at 390 and 1280; shared edges and lead photo confirmed",
+  "temporaryFiles": "Chrome QA profiles and Lighthouse temp directories cleaned",
+  "excludedFromCommit": [
+    "public/spot.json",
+    "docs/qa/*.log"
+  ],
+  "pushed": false,
+  "deployed": false
+}
